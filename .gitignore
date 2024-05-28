@@ -2,7 +2,7 @@
 *.csv
 
 # Ignore all CSV files in the data/raw/NSVA_Data directory (already covered by the above rule)
-data/raw/NSVA_Data/*.csv
+data/raw/NSVA_Data/NSVA_Data/*.csv
 
 # Ignore all MP4 files in the entire project
 *.mp4
