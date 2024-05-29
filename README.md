@@ -1,5 +1,5 @@
 # HoopsTalk
-<img src="docs/images/tsf-gpt2.png" alt="HoopsTalk Logo" width="500"/>
+<img src="docs/images/tsf-gpt2-archi.png" alt="HoopsTalk Logo" width="500"/>
 HoopsTalk harnesses the power of generative AI to provide engaging and ensuring a comprehensive and immersive experience for fans.
 
 ## Webscraper
