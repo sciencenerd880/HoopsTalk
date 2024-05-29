@@ -7,6 +7,10 @@
 # Ignore all MP4 files in the entire project
 *.mp4
 
+# Ignore all TTS model and sounds WAV
+*.wav
+*.pth 
+
 # Ignore other common files and directories
 __pycache__/
 *.pyc
