@@ -1,4 +1,5 @@
 # HoopsTalk
+![HoopsTalk Logo](docs/images/tsf-gpt2.png)
 HoopsTalk harnesses the power of generative AI to provide engaging and ensuring a comprehensive and immersive experience for fans.
 
 ## Webscraper
