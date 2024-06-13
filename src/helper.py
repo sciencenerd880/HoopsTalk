@@ -38,8 +38,8 @@ def create_message(encoded_frames):
         {
             "role": "user",
             "content": [
-                "These are frames from an NBA video that I want to upload. You are an NBA Commentator. Provide a commentary for these images as whole instead of frame by frame and approximately one sentence per 10 frames is sufficient:",
-                *map(lambda x: {"image": x, "resize": 768}, encoded_frames[0::30]),
+                "These are frames from an NBA video that I want to upload. You are an NBA Commentator. Provide a commentary for these images as whole instead of frame by frame and approximately two sentences is sufficient:",
+                *map(lambda x: {"image": x, "resize": 768}, encoded_frames[0::50]),
             ],
         },
     ]
