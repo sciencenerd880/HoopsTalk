@@ -10,7 +10,7 @@ Our proposed caption generating architecture consists of (i) TimeSformer Encoder
 
 ## Generate Caption - Inference
 1. go to `notebooks/inference.ipynb`
-2. make the your own `generate_captions` model
+2. make your own `generate_captions` model
 3. On last cell of the notebook, run the for loop and make the minor changes as needed / video data used can be found in [gdrive link here](https://drive.google.com/drive/folders/1GIgMOJOQNFMnY3jWZFEgM9kViq-IrUoP?usp=sharing) 
 
 ## Text Personification
