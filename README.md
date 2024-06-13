@@ -8,6 +8,11 @@ Our proposed caption generating architecture consists of (i) TimeSformer Encoder
 2. Run the `webscraper.py`
 3. Take note the games have been selected to just 'dal' games. Refers to 'dallas mavericks'.
 
+## Generate Caption - Inference
+1. go to `notebooks/inference.ipynb`
+2. make the your own `generate_captions` model
+3. On last cell of the notebook, run the for loop and make the minor changes as needed / video data used can be found in [gdrive link here](https://drive.google.com/drive/folders/1GIgMOJOQNFMnY3jWZFEgM9kViq-IrUoP?usp=sharing) 
+
 ## Text Personification
 1. Install required library `pip install langchain-openai==0.1.7` or just run `pip install -r requirements.txt`.
 2. Since the model is from local, follow install instruction for [LM Studio](https://lmstudio.ai) / [LocalAI](https://localai.io).
