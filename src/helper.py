@@ -2,7 +2,6 @@ import cv2
 import os
 from pathlib import Path
 import base64
-from gtts import gTTS
 import requests
 
 def encode_image(image_path):
@@ -75,8 +74,3 @@ def get_commentary_for_frames(api_key, messages, max_tokens=300):
         return None
     
     # return response.choices[0]
-
-def text_to_speech(text, output_audio_path):
-    output_audio_path = str(output_audio_path).replace('\\', '/')
-    tts = gTTS(text=text, lang='en')
-    tts.save(output_audio_path)

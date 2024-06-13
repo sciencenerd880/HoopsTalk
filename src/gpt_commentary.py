@@ -20,7 +20,6 @@ def main():
     messages = helper.create_message(encoded_frames)
     commentary = helper.get_commentary_for_frames(api_key, messages, max_tokens=300)
     print('commentary:',commentary)
-    helper.text_to_speech(commentary, abs_audio_path)
 
 if __name__ == '__main__':
     main()
