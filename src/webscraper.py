@@ -116,5 +116,5 @@ def unique_exploded(video_csv_file_names, video_output_dir):
 
         # save new csv file as `-exploded` file
         new_filename = csv_file.replace(".csv", "") + "-exploded.csv"
-        new_match_video_exploded.to_csv(new_filename)
+        pd.DataFrame(new_match_video_exploded).to_csv(new_filename)
         print("Saved exploded CSV", new_filename)
