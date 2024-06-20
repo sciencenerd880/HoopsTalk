@@ -10,8 +10,8 @@ np.float = np.float64
 np.int = np.int_
 import skvideo.io
 
-# list_of_games = glob.glob("./data/raw/NSVA_Data/NSVA_Data/*.csv")
-list_of_games = ["./data/raw/NSVA_Data/NSVA_Data/0021800013-dal-vs-phx.csv"]
+list_of_games = glob.glob("./data/raw/NSVA_Data/NSVA_Data/*.csv")
+# list_of_games = ["./data/raw/NSVA_Data/NSVA_Data/0021800013-dal-vs-phx.csv"]
 
             
 def compute_video_hash(video_path):
@@ -27,6 +27,16 @@ def compute_video_hash(video_path):
 
     # Return the hex digest of the hash
     return hash_obj.hexdigest()
+
+
+def video_download(url, file_name, max_retries=5):
+    for i in range(max_retries):
+        try:
+            urllib.request.urlretrieve(url, file_name)
+            break
+        except Exception as e:
+            print(e)
+            print("DOWNLOAD FAILED, RETRYING")
 
 
 def unique_exploded(video_csv_file_names, video_output_dir):
@@ -45,7 +55,7 @@ def unique_exploded(video_csv_file_names, video_output_dir):
                 # download the video
                 video_id = match_snippet["video_id"]
                 file_name = f"{video_output_dir}/{game_name}_{video_id.strip()}.mp4"
-                urllib.request.urlretrieve(match_snippet["video_url"], file_name)
+                video_download(match_snippet["video_url"], file_name)
                 print("Downloaded", file_name)
             else:
                 # split the data into num elements for each columns
@@ -65,7 +75,7 @@ def unique_exploded(video_csv_file_names, video_output_dir):
                 video_file_names = []
                 for video_id, video_url in zip(video_ids, video_urls):
                     file_name = f"{video_output_dir}/{game_name}_{video_id.strip()}.mp4"
-                    urllib.request.urlretrieve(video_url, file_name)
+                    video_download(video_url, file_name)
                     print("Downloaded", file_name)
                     video_contents.append(compute_video_hash(file_name))
                     # identical videos will have the same hash values

@@ -12,7 +12,7 @@ name_to_voice = {
     "David Attenborough": "david"
 }
 
-def tts(text, character):
+def tts(text, character, output_filename):
     voice = name_to_voice[character]
 
     model_file = base_model_path / f"{voice}.pth"
@@ -22,7 +22,6 @@ def tts(text, character):
     )
 
     wav = synthesizer.tts(text)
-    output_filename = output_path / f"{voice}.wav"
     synthesizer.save_wav(wav, output_filename)
     print(f"Saved audio file in {output_filename}")
 
