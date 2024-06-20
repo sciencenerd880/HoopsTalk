@@ -12,9 +12,9 @@ def main():
     load_dotenv()
 
     frame_interval = 30
-    metadata_file = './data/raw/NSVA_Data_Exploded/0021800013-dal-vs-phx-exploded.xlsx'
-    match = re.search(r'/([^/]+)-exploded\.xlsx$', metadata_file)
-    game = match.group(1)
+    game = '0021800013-dal-vs-phx'
+    metadata_file = f'./data/processed/final_results_{game}.csv'
+    # limit_rows = 10
     video_dir = './data/raw/NSVA_Video/' + game
     text_dir = f'./data/text/GPT4o/{game}_commentary_results.csv'
     api_key = os.getenv('OPENAI_API_KEY')
@@ -23,24 +23,20 @@ def main():
         logging.error("API key not found. Make sure to set the OPENAI_API_KEY environment variable.")
         return
 
-    # Convert the directory string to a Path object
-    # abs_video_dir = Path(video_dir).resolve()
-    # logging.info(f"Absolute video directory: {abs_video_dir}")
-
     results = []
     commentary_buffer = []  # Initialize a buffer to store the last 10 lines of commentary
     
-    meta_df = pd.read_excel(metadata_file)
-    meta_df = meta_df.loc[meta_df['ActionType1_Pred_Result'].isin(['Foul','Rebound','Made Shot','Missed Shot','Turnover'])]
-    meta_df = meta_df.iloc[:10,:]
+    meta_df = pd.read_csv(metadata_file)
+    meta_df = meta_df.loc[meta_df['pred_actionType1'].isin(['Foul','Rebound','Made Shot','Missed Shot','Turnover'])]
+    # meta_df = meta_df.iloc[:limit_rows,:]
 
     for index, row in tqdm(meta_df.iterrows()):
         video_file = video_dir + '/' + game + '_' + str(row['video_id']) + '.mp4'
         logging.info(f"Processing video: {video_file}")
         base64_frames = extract_encode_frames(video_file, frame_interval)
-        pred_actions = (row['ActionType1_Pred_Result'],row['ActionType1_Pred_Prob'],row['ActionType2_Pred_Result'],row['ActionType2_Pred_Prob'])
+        pred_actions = (row['pred_actionType1'],row['predprob_actionType1'],row['pred_actionType2'],row['predprob_actionType2'])
         messages = create_message(base64_frames, pred_actions, frame_interval, "\n".join(commentary_buffer))
-        commentary = get_commentary_for_frames(api_key, messages)
+        commentary = get_commentary_for_frames(api_key, messages, temperature=0.7)
         
         if commentary:
             results.append({'video_id': row['video_id'], 'gen_commentary': commentary})
