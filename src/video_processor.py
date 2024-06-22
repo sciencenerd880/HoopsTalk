@@ -59,15 +59,3 @@ def create_message(encoded_frames, pred_actions, frame_interval=50, previous_com
     messages = [{"role": "user", "content": content}]
     
     return messages
-
-'''
-1. Play Start: Describe the beginning of an offensive or defensive play.
-        2. Shot Attempt: Replace [Player] with the player's name (identified by jersey number or team) attempting a [shot type] from [distance].
-        3. Rebound: Replace [Player] with the player's name grabbing the rebound.
-        4. Successful Shot: Replace [Player] with the player's name scoring a [shot type] from [distance].
-        5. Assist: Replace [Player] with the player's name who assists.
-        6. Foul: Replace [Player] with the player's name committing a [foul type].
-        7. Turnover: Replace [Player] with the player's name losing the ball.
-        8. Significant Moment: Describe any significant moment like a game-changing play or a remarkable defensive action, replacing [Player] with the relevant player's name.
-        9. End of Period: Indicate the end of [period number].
-'''

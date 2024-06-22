@@ -14,15 +14,15 @@ def main():
     frame_interval = 30
     game = '0021800013-dal-vs-phx'
     metadata_file = f'./data/processed/final_results_{game}.csv'
-    # limit_rows = 10
+    # limit_rows = 5
     video_dir = './data/raw/NSVA_Video/' + game
-    text_dir = f'./data/text/GPT4o/{game}_commentary_results.csv'
+    text_dir = f'./data/text/GPT4o/{game}_commentary_results_nohelp.csv'
     api_key = os.getenv('OPENAI_API_KEY')
-
+    
     if not api_key:
         logging.error("API key not found. Make sure to set the OPENAI_API_KEY environment variable.")
         return
-
+    
     results = []
     commentary_buffer = []  # Initialize a buffer to store the last 10 lines of commentary
     
