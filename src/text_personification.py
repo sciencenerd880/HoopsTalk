@@ -7,7 +7,7 @@ llm = ChatOpenAI(base_url="http://localhost:1234/v1", api_key='not_needed', temp
 
 def personify(text, character):
     prompt_template = """
-    Rewrite the following NBA game commentary in the style of {character_name} in less than 25 words:
+    Rewrite the following NBA game commentary in the style of {character_name} in less than 15 words:
 
     Here are some examples of conversion in basketball context:
     {examples}

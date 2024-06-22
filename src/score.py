@@ -1,48 +1,79 @@
 import numpy as np
 import pandas as pd
-import tensorflow as tf
-import tensorflow_hub as hub
+import json
+from rouge_score import rouge_scorer
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
-module_url = "https://tfhub.dev/google/universal-sentence-encoder/4"
-use_model = hub.load(module_url)
+scorer = rouge_scorer.RougeScorer(['rouge1', 'rougeL'], use_stemmer=True)
+# rouge1: N-gram appearance scoring
+# rougeL: compute longest common subsequence (LCS)
 
+def evaluate(caption, pred_caption):
+    return scorer.score(caption, pred_caption)
 
-def evaluate_cosine(text1, text2):
-    if type(text1) == str:
-        text1 = [text1]
-        text2 = [text2]
-    text1_emb = use_model(text1).numpy()
-    text2_emb = use_model(text2).numpy()
-
-    return np.clip(
-        tf.reduce_sum(
-            tf.multiply(text1_emb, text2_emb),
-            axis=1
-        ).numpy(),
-        .0,
-        1.
-    )
+def average(list_like):
+    return sum(list_like) / len(list_like)
 
 
 def evaluate_dataset(df):
     # ASSUMPTION:
     # - real caption is `caption` column is the label
     # - predicted caption is `pred_caption` column is the prediction
-    return {
-        "cosine": evaluate_cosine(df["caption"], df["pred_caption"])
+    result = {
+        "trump": df.apply(lambda x: evaluate(x["gen_commentary"], x["trump_caption"]), axis=1),
+        "david": df.apply(lambda x: evaluate(x["gen_commentary"], x["david_caption"]), axis=1),
+        "tst_trump": df.apply(lambda x: evaluate(x["gen_commentary"], x["tst_trump_text"]), axis=1)
     }
 
+    average_score = {}
+
+    for captioner in result:
+        rouge1_precision = []
+        rouge1_recall = []
+        rouge1_f1 = []
+
+        rougeL_precision = []
+        rougeL_recall = []
+        rougeL_f1 = []
+        
+        for scores in result[captioner]:
+            rouge1_precision.append(scores["rouge1"].precision)
+            rouge1_recall.append(scores["rouge1"].recall)
+            rouge1_f1.append(scores["rouge1"].fmeasure)
+        
+            rougeL_precision.append(scores["rougeL"].precision)
+            rougeL_recall.append(scores["rougeL"].recall)
+            rougeL_f1.append(scores["rougeL"].fmeasure)
+    
+        # get average scores
+        average_score[captioner] = {
+            "rouge1_precision": average(rouge1_precision),
+            "rouge1_recall": average(rouge1_recall),
+            "rouge1_f1": average(rouge1_f1),
+
+            "rougeL_precision": average(rougeL_precision),
+            "rougeL_recall": average(rougeL_recall),
+            "rougeL_f1": average(rougeL_f1),
+        }
+    
+    return average_score
+
+
+def visualize_heatmap(evaluated_result_df):
+    plt.figure(figsize=(15, 7))
+    sns.heatmap(evaluated_result_df, annot=True)
+    plt.savefig("evaluated_result.png")
+    plt.close()
 
 if __name__ == "__main__":
-    text1 = "kids are talking by the door. Dogs sitting on door"
-    text2 = "kids talking on door. Dogs are sitting by the door"
-    print(evaluate_cosine(text1, text2))
-    print(evaluate_cosine("this is ae a test rest pep did", "this is ad test rest pep did"))
 
-    df = pd.DataFrame({
-        "caption": ["hello there general kenobi", "foo bar foobar", "this is a dog"],
-        "pred_caption": ["hello there! General Kenobi!!", "foobar foo bar", "a dog, it is"]
-    })
+    df = pd.read_csv("./data/text/GPT4o/personified_15words_with_tst.csv")
 
-    print(evaluate_dataset(df))
+    evaluated_result = evaluate_dataset(df)
+    evaluated_result_df = pd.DataFrame(evaluated_result.values())
+    evaluated_result_df.index = evaluated_result.keys()
+    # print(evaluated_result_df)
+    visualize_heatmap(evaluated_result_df)
+    evaluated_result_df.to_csv("evaluated_result.csv", index=False)
