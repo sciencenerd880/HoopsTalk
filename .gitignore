@@ -27,3 +27,6 @@ venv/
 .vscode/
 .pytest_cache/
 .mypy_cache/
+
+# have sample audio files uploaded to github
+!output/sample_audio/*.wav
