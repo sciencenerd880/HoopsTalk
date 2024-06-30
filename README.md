@@ -1,7 +1,8 @@
 # 🏀 About HoopsTalk
 <img src="docs/images/tsf-gpt2-archi.png" alt="HoopsTalk Logo" width="500"/>
 HoopsTalk harnesses the power of generative AI to provide engaging and ensuring a comprehensive and immersive experience for fans.
-Our proposed caption generating architecture consists of (i) TimeSformer Encoder and (ii) Transformer-based Decoder with multi-head self attention.
+Our proposed caption generating architecture consists of (i) using one of the best multi-modal (OpenAI GPT4o Endpoint) (ii)Fintuned TimeSFormer (pretrained on Kinetics400) 
+Recognising the limitations of having well annotated pair of data for style transfer, we have used open-sourced Language Models from LM Studio by curating prompt template of XXX Celebrity. 
 
 ## Webscraper
 1. Get the data from https://www.dropbox.com/sh/x3zpttp7bjevb3r/AAAeFLnIeBMBXa9DNQD4a8TOa?e=2&dl=0 and put the content inside `data/raw/NSVA_Data/NSVA_Data`.
