@@ -16,6 +16,12 @@ Our proposed caption generating architecture consists of (i) TimeSformer Encoder
 5. The output commentary will be placed in the folder `/data/text/GPT4o/{game}_commentary_results.csv`
 Note: `{game}` refers to the game_id which is available in the NSVA file, Eg: 0021800013-dal-vs-phx.
 
+## Finetune TimeSFormer - Action Recognition
+1. Run `pip install -r requirements.txt`.
+2. Determine the number of action recognition classes (current used based on dataset is 5)
+3. Finetune based on the specified hyperparams (e.g. Learning rate, epochs, etc)
+4. Default finetune by unfreezing last 3 layers and used standard Cross Entropy Loss function.
+
 ## Generate Caption - Inference
 1. go to `notebooks/inference.ipynb`
 2. make your own `generate_captions` model
