@@ -5,8 +5,6 @@ from dotenv import load_dotenv
 import pandas as pd
 from video_processor import extract_encode_frames, create_message
 from openai_client import get_commentary_for_frames
-from tqdm import tqdm
-import re
 
 def main():
     load_dotenv()
@@ -16,7 +14,7 @@ def main():
     metadata_file = f'./data/processed/final_results_{game}.csv'
     # limit_rows = 5
     video_dir = './data/raw/NSVA_Video/' + game
-    text_dir = f'./data/text/GPT4o/{game}_commentary_results_nohelp.csv'
+    text_dir = f'./data/text/GPT4o/{game}_commentary_results.csv'
     api_key = os.getenv('OPENAI_API_KEY')
     
     if not api_key:
@@ -30,7 +28,7 @@ def main():
     meta_df = meta_df.loc[meta_df['pred_actionType1'].isin(['Foul','Rebound','Made Shot','Missed Shot','Turnover'])]
     # meta_df = meta_df.iloc[:limit_rows,:]
 
-    for index, row in tqdm(meta_df.iterrows()):
+    for index, row in meta_df.iterrows():
         video_file = video_dir + '/' + game + '_' + str(row['video_id']) + '.mp4'
         logging.info(f"Processing video: {video_file}")
         base64_frames = extract_encode_frames(video_file, frame_interval)

@@ -8,6 +8,14 @@ Our proposed caption generating architecture consists of (i) TimeSformer Encoder
 2. Run the `webscraper.py`
 3. Take note the games have been selected to just 'dal' games. Refers to 'dallas mavericks'.
 
+## Generate Caption - GPT4o
+1. Run `pip install -r requirements.txt`.
+2. Create a file .env and place it under `/src`, it must contain `OPENAI_API_KEY=<API_KEY>`.
+3. Place the video files extracted using the webscraper and place them in the directory `/data/raw/NSVA_Video/`
+4. Place the webscraper generated metadata file under `/data/processed/final_results_{game}.csv`
+5. The output commentary will be placed in the folder `/data/text/GPT4o/{game}_commentary_results.csv`
+Note: `{game}` refers to the game_id which is available in the NSVA file, Eg: 0021800013-dal-vs-phx.
+
 ## Generate Caption - Inference
 1. go to `notebooks/inference.ipynb`
 2. make your own `generate_captions` model
