@@ -34,5 +34,5 @@ Note: `{game}` refers to the game_id which is available in the NSVA file, Eg: 00
 4. Check the generated `.wav` file in `output` directory.
 
 ## MAIN
-This is the main program. The models will run given a video input (TBD), and will return a `.wav` file for the output personified caption.
+This is the main program. The models will run given captions of the videos, and will return a `.wav` file for the output personified caption.
 1. Run `python main.py` from the root directory.

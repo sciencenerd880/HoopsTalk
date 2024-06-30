@@ -14,6 +14,7 @@
 
 # Ignore other common files and directories
 __pycache__/
+.ipynb_checkpoints/
 *.pyc
 *.pyo
 *.pyd
@@ -26,3 +27,6 @@ venv/
 .vscode/
 .pytest_cache/
 .mypy_cache/
+
+# have sample audio files uploaded to github
+!output/sample_audio/*.wav
